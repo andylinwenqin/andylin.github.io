@@ -1,0 +1,297 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>WebSocket | Andylin's Blog</title><meta name="keywords" content="html&amp;浏览器,协议"><meta name="author" content="林文钦,andylin0119@163.com"><meta name="copyright" content="林文钦"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="WebSocket网络协议的基础概念和协议用法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebSocket">
+<meta property="og:url" content="https://andylinwenqin.github.io/2021/07/02/Web-Socket/index.html">
+<meta property="og:site_name" content="Andylin&#39;s Blog">
+<meta property="og:description" content="WebSocket网络协议的基础概念和协议用法">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://andylinwenqin.github.io/img/11.jpg">
+<meta property="article:published_time" content="2021-07-02T04:11:54.000Z">
+<meta property="article:modified_time" content="2021-07-17T04:18:57.501Z">
+<meta property="article:author" content="林文钦">
+<meta property="article:tag" content="html&amp;浏览器">
+<meta property="article:tag" content="协议">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://andylinwenqin.github.io/img/11.jpg"><link rel="shortcut icon" href="/andylin.github.io/img/favicon.png"><link rel="canonical" href="https://andylinwenqin.github.io/2021/07/02/Web-Socket/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/andylin.github.io/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/andylin.github.io/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'WebSocket',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-07-17 12:18:57'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/andylin.github.io/atom.xml" title="Andylin's Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/andylin.github.io/img/OIP-C.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/andylin.github.io/archives/"><div class="headline">文章</div><div class="length-num">35</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/andylin.github.io/tags/"><div class="headline">标签</div><div class="length-num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/andylin.github.io/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/andylin.github.io/img/11.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/andylin.github.io/">Andylin's Blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/andylin.github.io/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">WebSocket</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-07-02T04:11:54.000Z" title="发表于 2021-07-02 12:11:54">2021-07-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-07-17T04:18:57.501Z" title="更新于 2021-07-17 12:18:57">2021-07-17</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="WebSocket"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="WebSocket-教程"><a href="#WebSocket-教程" class="headerlink" title="WebSocket 教程"></a>WebSocket 教程</h1><hr>
+<p><a target="_blank" rel="noopener" href="https://websocket.org/">WebSocket</a> 是一种网络通信协议，很多高级功能都需要它。</p>
+<p>本文介绍 WebSocket 协议的使用方法。</p>
+<h2 id="为什么需要-WebSocket？"><a href="#为什么需要-WebSocket？" class="headerlink" title="为什么需要 WebSocket？"></a>为什么需要 WebSocket？</h2><p>初次接触 WebSocket 的人，都会问同样的问题：我们已经有了 HTTP 协议，为什么还需要另一个协议？它能带来什么好处？</p>
+<p>答案很简单，因为 HTTP 协议有一个缺陷：通信只能由客户端发起。</p>
+<p>举例来说，我们想了解今天的天气，只能是客户端向服务器发出请求，服务器返回查询结果。HTTP 协议做不到服务器主动向客户端推送信息。</p>
+<p><img src="https://raw.githubusercontent.com/andylinwenqin/Picgo/main/img/20210702153804.jpg"></p>
+<p>这种单向请求的特点，注定了如果服务器有连续的状态变化，客户端要获知就非常麻烦。我们只能使用<a target="_blank" rel="noopener" href="https://www.pubnub.com/blog/2014-12-01-http-long-polling/">“轮询”</a>：每隔一段时候，就发出一个询问，了解服务器有没有新的信息。最典型的场景就是聊天室。</p>
+<p>轮询的效率低，非常浪费资源（因为必须不停连接，或者 HTTP 连接始终打开）。因此，工程师们一直在思考，有没有更好的方法。WebSocket 就是这样发明的。</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>WebSocket 协议在2008年诞生，2011年成为国际标准。所有浏览器都已经支持了。</p>
+<p>它的最大特点就是，服务器可以主动向客户端推送信息，客户端也可以主动向服务器发送信息，是真正的双向平等对话，属于<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Push_technology">服务器推送技术</a>的一种。</p>
+<p><img src="https://raw.githubusercontent.com/andylinwenqin/Picgo/main/img/20210702154116.png"></p>
+<p>其他特点包括：</p>
+<p>（1）建立在 TCP 协议之上，服务器端的实现比较容易。</p>
+<p>（2）与 HTTP 协议有着良好的兼容性。默认端口也是80和443，并且握手阶段采用 HTTP 协议，因此握手时不容易屏蔽，能通过各种 HTTP 代理服务器。</p>
+<p>（3）数据格式比较轻量，性能开销小，通信高效。</p>
+<p>（4）可以发送文本，也可以发送二进制数据。</p>
+<p>（5）没有同源限制，客户端可以与任意服务器通信。</p>
+<p>（6）协议标识符是<code>ws</code>（如果加密，则为<code>wss</code>），服务器网址就是 URL。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ws://example.com:80/some/path</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/andylinwenqin/Picgo/main/img/20210702154224.jpg"></p>
+<h2 id="客户端的简单示例"><a href="#客户端的简单示例" class="headerlink" title="客户端的简单示例"></a>客户端的简单示例</h2><p>WebSocket 的用法相当简单。</p>
+<p>下面是一个网页脚本的例子（点击<a target="_blank" rel="noopener" href="http://jsbin.com/muqamiqimu/edit?js,console">这里</a>看运行结果），基本上一眼就能明白。</p>
+<blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ws = <span class="keyword">new</span> WebSocket(<span class="string">&quot;wss://echo.websocket.org&quot;</span>);</span><br><span class="line"></span><br><span class="line">ws.onopen = <span class="function"><span class="keyword">function</span>(<span class="params">evt</span>) </span>&#123; </span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;Connection open ...&quot;</span>); </span><br><span class="line">  ws.send(<span class="string">&quot;Hello WebSockets!&quot;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">ws.onmessage = <span class="function"><span class="keyword">function</span>(<span class="params">evt</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log( <span class="string">&quot;Received Message: &quot;</span> + evt.data);</span><br><span class="line">  ws.close();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">ws.onclose = <span class="function"><span class="keyword">function</span>(<span class="params">evt</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">&quot;Connection closed.&quot;</span>);</span><br><span class="line">&#125;;      </span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="客户端的-API"><a href="#客户端的-API" class="headerlink" title="客户端的 API"></a>客户端的 API</h2><h3 id="WebSocket-构造函数"><a href="#WebSocket-构造函数" class="headerlink" title="WebSocket 构造函数"></a>WebSocket 构造函数</h3><p>WebSocket 对象作为一个构造函数，用于新建 WebSocket 实例。</p>
+<blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ws = <span class="keyword">new</span> WebSocket(<span class="string">&#x27;ws://localhost:8080&#x27;</span>);</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>执行上面语句之后，客户端就会与服务器进行连接。</p>
+<p>实例对象的所有属性和方法清单，参见<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/WebSocket">这里</a>。</p>
+<h3 id="webSocket-readyState"><a href="#webSocket-readyState" class="headerlink" title="webSocket.readyState"></a>webSocket.readyState</h3><p><code>readyState</code>属性返回实例对象的当前状态，共有四种。</p>
+<blockquote>
+<ul>
+<li>CONNECTING：值为0，表示正在连接。</li>
+<li>OPEN：值为1，表示连接成功，可以通信了。</li>
+<li>CLOSING：值为2，表示连接正在关闭。</li>
+<li>CLOSED：值为3，表示连接已经关闭，或者打开连接失败。</li>
+</ul>
+</blockquote>
+<p>下面是一个示例。</p>
+<blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> (ws.readyState) &#123;</span><br><span class="line">  <span class="keyword">case</span> WebSocket.CONNECTING:</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> WebSocket.OPEN:</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> WebSocket.CLOSING:</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> WebSocket.CLOSED:</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">    <span class="comment">// this never happens</span></span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="webSocket-onopen"><a href="#webSocket-onopen" class="headerlink" title="webSocket.onopen"></a>webSocket.onopen</h3><p>实例对象的<code>onopen</code>属性，用于指定连接成功后的回调函数。</p>
+<blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ws.onopen = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  ws.send(<span class="string">&#x27;Hello Server!&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>如果要指定多个回调函数，可以使用<code>addEventListener</code>方法。</p>
+<blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ws.addEventListener(<span class="string">&#x27;open&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">  ws.send(<span class="string">&#x27;Hello Server!&#x27;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="webSocket-onclose"><a href="#webSocket-onclose" class="headerlink" title="webSocket.onclose"></a>webSocket.onclose</h3><p>实例对象的<code>onclose</code>属性，用于指定连接关闭后的回调函数。</p>
+<blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ws.onclose = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> code = event.code;</span><br><span class="line">  <span class="keyword">var</span> reason = event.reason;</span><br><span class="line">  <span class="keyword">var</span> wasClean = event.wasClean;</span><br><span class="line">  <span class="comment">// handle close event</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">ws.addEventListener(<span class="string">&quot;close&quot;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> code = event.code;</span><br><span class="line">  <span class="keyword">var</span> reason = event.reason;</span><br><span class="line">  <span class="keyword">var</span> wasClean = event.wasClean;</span><br><span class="line">  <span class="comment">// handle close event</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="webSocket-onmessage"><a href="#webSocket-onmessage" class="headerlink" title="webSocket.onmessage"></a>webSocket.onmessage</h3><p>实例对象的<code>onmessage</code>属性，用于指定收到服务器数据后的回调函数。</p>
+<blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ws.onmessage = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> data = event.data;</span><br><span class="line">  <span class="comment">// 处理数据</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">ws.addEventListener(<span class="string">&quot;message&quot;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> data = event.data;</span><br><span class="line">  <span class="comment">// 处理数据</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>注意，服务器数据可能是文本，也可能是二进制数据（<code>blob</code>对象或<code>Arraybuffer</code>对象）。</p>
+<blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ws.onmessage = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(<span class="keyword">typeof</span> event.data === <span class="built_in">String</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Received data string&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(event.data <span class="keyword">instanceof</span> <span class="built_in">ArrayBuffer</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> buffer = event.data;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Received arraybuffer&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>除了动态判断收到的数据类型，也可以使用<code>binaryType</code>属性，显式指定收到的二进制数据类型。</p>
+<blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 收到的是 blob 数据</span></span><br><span class="line">ws.binaryType = <span class="string">&quot;blob&quot;</span>;</span><br><span class="line">ws.onmessage = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(e.data.size);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 收到的是 ArrayBuffer 数据</span></span><br><span class="line">ws.binaryType = <span class="string">&quot;arraybuffer&quot;</span>;</span><br><span class="line">ws.onmessage = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(e.data.byteLength);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="webSocket-send"><a href="#webSocket-send" class="headerlink" title="webSocket.send()"></a>webSocket.send()</h3><p>实例对象的<code>send()</code>方法用于向服务器发送数据。</p>
+<p>发送文本的例子。</p>
+<blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ws.send(<span class="string">&#x27;your message&#x27;</span>);</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>发送 Blob 对象的例子。</p>
+<blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> file = <span class="built_in">document</span></span><br><span class="line">  .querySelector(<span class="string">&#x27;input[type=&quot;file&quot;]&#x27;</span>)</span><br><span class="line">  .files[<span class="number">0</span>];</span><br><span class="line">ws.send(file);</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>发送 ArrayBuffer 对象的例子。</p>
+<blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Sending canvas ImageData as ArrayBuffer</span></span><br><span class="line"><span class="keyword">var</span> img = canvas_context.getImageData(<span class="number">0</span>, <span class="number">0</span>, <span class="number">400</span>, <span class="number">320</span>);</span><br><span class="line"><span class="keyword">var</span> binary = <span class="keyword">new</span> <span class="built_in">Uint8Array</span>(img.data.length);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; img.data.length; i++) &#123;</span><br><span class="line">  binary[i] = img.data[i];</span><br><span class="line">&#125;</span><br><span class="line">ws.send(binary.buffer);</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="webSocket-bufferedAmount"><a href="#webSocket-bufferedAmount" class="headerlink" title="webSocket.bufferedAmount"></a>webSocket.bufferedAmount</h3><p>实例对象的<code>bufferedAmount</code>属性，表示还有多少字节的二进制数据没有发送出去。它可以用来判断发送是否结束。</p>
+<blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> data = <span class="keyword">new</span> <span class="built_in">ArrayBuffer</span>(<span class="number">10000000</span>);</span><br><span class="line">socket.send(data);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (socket.bufferedAmount === <span class="number">0</span>) &#123;</span><br><span class="line">  <span class="comment">// 发送完毕</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">// 发送还没结束</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="webSocket-onerror"><a href="#webSocket-onerror" class="headerlink" title="webSocket.onerror"></a>webSocket.onerror</h3><p>实例对象的<code>onerror</code>属性，用于指定报错时的回调函数。</p>
+<blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">socket.onerror = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// handle error event</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">socket.addEventListener(<span class="string">&quot;error&quot;</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// handle error event</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="服务端的实现"><a href="#服务端的实现" class="headerlink" title="服务端的实现"></a>服务端的实现</h2><p>WebSocket 服务器的实现，可以查看维基百科的<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Comparison_of_WebSocket_implementations">列表</a>。</p>
+<p>常用的 Node 实现有以下三种。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/uWebSockets/uWebSockets">µWebSockets</a></li>
+<li><a target="_blank" rel="noopener" href="http://socket.io/">Socket.IO</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/theturtle32/WebSocket-Node">WebSocket-Node</a></li>
+</ul>
+<p>具体的用法请查看它们的文档，这里不详细介绍了。</p>
+<h2 id="WebSocketd"><a href="#WebSocketd" class="headerlink" title="WebSocketd"></a>WebSocketd</h2><p>下面，我要推荐一款非常特别的 WebSocket 服务器：<a target="_blank" rel="noopener" href="http://websocketd.com/">Websocketd</a>。</p>
+<p>它的最大特点，就是后台脚本不限语言，标准输入（stdin）就是 WebSocket 的输入，标准输出（stdout）就是 WebSocket 的输出。</p>
+<p><img src="https://raw.githubusercontent.com/andylinwenqin/Picgo/main/img/20210702154529.png"></p>
+<p>举例来说，下面是一个 Bash 脚本<code>counter.sh</code>。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> 1</span><br><span class="line">sleep 1</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> 2</span><br><span class="line">sleep 1</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> 3</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>命令行下运行这个脚本，会输出1、2、3，每个值之间间隔1秒。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ bash ./counter.sh</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>现在，启动<code>websocketd</code>，指定这个脚本作为服务。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ websocketd --port=8080 bash ./counter.sh</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>上面的命令会启动一个 WebSocket 服务器，端口是<code>8080</code>。每当客户端连接这个服务器，就会执行<code>counter.sh</code>脚本，并将它的输出推送给客户端。</p>
+<blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ws = <span class="keyword">new</span> WebSocket(<span class="string">&#x27;ws://localhost:8080/&#x27;</span>);</span><br><span class="line"></span><br><span class="line">ws.onmessage = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(event.data);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>上面是客户端的 JavaScript 代码，运行之后会在控制台依次输出1、2、3。</p>
+<p>有了它，就可以很方便地将命令行的输出，发给浏览器。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ websocketd --port=8080 ls</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>上面的命令会执行<code>ls</code>命令，从而将当前目录的内容，发给浏览器。使用这种方式实时监控服务器，简直是轻而易举（<a target="_blank" rel="noopener" href="https://github.com/joewalnes/web-vmstats">代码</a>）。</p>
+<p><img src="https://raw.githubusercontent.com/andylinwenqin/Picgo/main/img/20210702154601.jpg"></p>
+<p>更多的用法可以参考<a target="_blank" rel="noopener" href="https://github.com/joewalnes/websocketd/tree/master/examples/bash">官方示例</a>。</p>
+<blockquote>
+<ul>
+<li>Bash 脚本<a target="_blank" rel="noopener" href="https://github.com/joewalnes/websocketd/blob/master/examples/bash/greeter.sh">读取客户端输入</a>的例子</li>
+<li>五行代码实现一个最简单的<a target="_blank" rel="noopener" href="https://github.com/joewalnes/websocketd/blob/master/examples/bash/chat.sh">聊天服务器</a></li>
+</ul>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/andylinwenqin/Picgo/main/img/20210702154728.png"></p>
+<p>websocketd 的实质，就是命令行的 WebSocket 代理。只要命令行可以执行的程序，都可以通过它与浏览器进行 WebSocket 通信。下面是一个 Node 实现的回声服务<a target="_blank" rel="noopener" href="https://github.com/joewalnes/websocketd/blob/master/examples/nodejs/greeter.js"><code>greeter.js</code></a>。</p>
+<blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">process.stdin.setEncoding(<span class="string">&#x27;utf8&#x27;</span>);</span><br><span class="line"></span><br><span class="line">process.stdin.on(<span class="string">&#x27;readable&#x27;</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> chunk = process.stdin.read();</span><br><span class="line">  <span class="keyword">if</span> (chunk !== <span class="literal">null</span>) &#123;</span><br><span class="line">    process.stdout.write(<span class="string">&#x27;data: &#x27;</span> + chunk);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>启动这个脚本的命令如下。</p>
+<blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ websocketd --port=8080 node ./greeter.js</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>官方仓库还有其他<a target="_blank" rel="noopener" href="https://github.com/joewalnes/websocketd/tree/master/examples">各种语言</a>的例子。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="http://cjihrig.com/blog/how-to-use-websockets/">How to Use WebSockets</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.tutorialspoint.com/websockets/websockets_send_receive_messages.htm">WebSockets - Send &amp; Receive Messages</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.html5rocks.com/en/tutorials/websockets/basics/">Introducing WebSockets: Bringing Sockets to the Web</a></p>
+</li>
+<li><p>本文来自<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2017/05/websocket.html">阮一峰的 WebSocker</a>仅作为学习使用</p>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:andylin0119@163.com">林文钦</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://andylinwenqin.github.io/2021/07/02/Web-Socket/">https://andylinwenqin.github.io/2021/07/02/Web-Socket/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://andylinwenqin.github.io" target="_blank">Andylin's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/andylin.github.io/tags/html-%E6%B5%8F%E8%A7%88%E5%99%A8/">html&amp;浏览器</a><a class="post-meta__tags" href="/andylin.github.io/tags/%E5%8D%8F%E8%AE%AE/">协议</a></div><div class="post_share"><div class="social-share" data-image="/andylin.github.io/img/11.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/andylin.github.io/2021/07/06/STOMP/"><img class="prev-cover" src="/andylin.github.io/img/9.jpg" onerror="onerror=null;src='/andylin.github.io/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Stomp</div></div></a></div><div class="next-post pull-right"><a href="/andylin.github.io/2021/06/27/mini-vue/"><img class="next-cover" src="/andylin.github.io/img/11.jpg" onerror="onerror=null;src='/andylin.github.io/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">mini-vue</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/andylin.github.io/2021/07/06/STOMP/" title="Stomp"><img class="cover" src="/andylin.github.io/img/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-07-06</div><div class="title">Stomp</div></div></a></div><div><a href="/andylin.github.io/2021/06/26/浏览器工作原理/" title="浏览器工作原理"><img class="cover" src="/andylin.github.io/img/11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-26</div><div class="title">浏览器工作原理</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/andylin.github.io/img/OIP-C.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">林文钦</div><div class="author-info__description">个人知识积累</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/andylin.github.io/archives/"><div class="headline">文章</div><div class="length-num">35</div></a></div><div class="card-info-data-item is-center"><a href="/andylin.github.io/tags/"><div class="headline">标签</div><div class="length-num">12</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/andylinwenqin"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">此博客仅用于个人学习，如有内容需要备注原地址，联系博主</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#WebSocket-%E6%95%99%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">WebSocket 教程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-WebSocket%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">为什么需要 WebSocket？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.2.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9A%84%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.3.</span> <span class="toc-text">客户端的简单示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9A%84-API"><span class="toc-number">1.4.</span> <span class="toc-text">客户端的 API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#WebSocket-%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="toc-number">1.4.1.</span> <span class="toc-text">WebSocket 构造函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#webSocket-readyState"><span class="toc-number">1.4.2.</span> <span class="toc-text">webSocket.readyState</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#webSocket-onopen"><span class="toc-number">1.4.3.</span> <span class="toc-text">webSocket.onopen</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#webSocket-onclose"><span class="toc-number">1.4.4.</span> <span class="toc-text">webSocket.onclose</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#webSocket-onmessage"><span class="toc-number">1.4.5.</span> <span class="toc-text">webSocket.onmessage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#webSocket-send"><span class="toc-number">1.4.6.</span> <span class="toc-text">webSocket.send()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#webSocket-bufferedAmount"><span class="toc-number">1.4.7.</span> <span class="toc-text">webSocket.bufferedAmount</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#webSocket-onerror"><span class="toc-number">1.4.8.</span> <span class="toc-text">webSocket.onerror</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.5.</span> <span class="toc-text">服务端的实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WebSocketd"><span class="toc-number">1.6.</span> <span class="toc-text">WebSocketd</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.7.</span> <span class="toc-text">参考链接</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/andylin.github.io/2021/07/25/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3/" title="小程序问题与解决"><img src="/andylin.github.io/img/8.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/404.jpg'" alt="小程序问题与解决"/></a><div class="content"><a class="title" href="/andylin.github.io/2021/07/25/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3/" title="小程序问题与解决">小程序问题与解决</a><time datetime="2021-07-25T08:54:42.000Z" title="发表于 2021-07-25 16:54:42">2021-07-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/andylin.github.io/2021/07/17/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%9F%BA%E7%A1%80API%E7%9A%84%E4%BD%BF%E7%94%A8/" title="小程序基础API的使用"><img src="/andylin.github.io/img/8.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/404.jpg'" alt="小程序基础API的使用"/></a><div class="content"><a class="title" href="/andylin.github.io/2021/07/17/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%9F%BA%E7%A1%80API%E7%9A%84%E4%BD%BF%E7%94%A8/" title="小程序基础API的使用">小程序基础API的使用</a><time datetime="2021-07-17T14:14:41.000Z" title="发表于 2021-07-17 22:14:41">2021-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/andylin.github.io/2021/07/17/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%99%BB%E5%BD%95%E6%8E%A5%E5%8F%A3%E7%9A%84%E6%9B%B4%E6%96%B0/" title="小程序登录接口的更新"><img src="/andylin.github.io/img/4.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/404.jpg'" alt="小程序登录接口的更新"/></a><div class="content"><a class="title" href="/andylin.github.io/2021/07/17/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%99%BB%E5%BD%95%E6%8E%A5%E5%8F%A3%E7%9A%84%E6%9B%B4%E6%96%B0/" title="小程序登录接口的更新">小程序登录接口的更新</a><time datetime="2021-07-17T04:19:31.000Z" title="发表于 2021-07-17 12:19:31">2021-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/andylin.github.io/2021/07/11/%E5%8D%95%E5%B7%A5-%E5%8D%8A%E5%8F%8C%E5%B7%A5-%E5%85%A8%E5%8F%8C%E5%B7%A5%E4%B8%89%E8%80%85%E5%8C%BA%E5%88%AB/" title="单工,半双工,全双工三者区别"><img src="/andylin.github.io/img/8.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/404.jpg'" alt="单工,半双工,全双工三者区别"/></a><div class="content"><a class="title" href="/andylin.github.io/2021/07/11/%E5%8D%95%E5%B7%A5-%E5%8D%8A%E5%8F%8C%E5%B7%A5-%E5%85%A8%E5%8F%8C%E5%B7%A5%E4%B8%89%E8%80%85%E5%8C%BA%E5%88%AB/" title="单工,半双工,全双工三者区别">单工,半双工,全双工三者区别</a><time datetime="2021-07-11T07:10:38.000Z" title="发表于 2021-07-11 15:10:38">2021-07-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/andylin.github.io/2021/07/06/STOMP/" title="Stomp"><img src="/andylin.github.io/img/9.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/404.jpg'" alt="Stomp"/></a><div class="content"><a class="title" href="/andylin.github.io/2021/07/06/STOMP/" title="Stomp">Stomp</a><time datetime="2021-07-06T11:12:57.000Z" title="发表于 2021-07-06 19:12:57">2021-07-06</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 林文钦</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/andylin.github.io/js/utils.js"></script><script src="/andylin.github.io/js/main.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

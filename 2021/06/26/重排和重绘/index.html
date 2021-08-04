@@ -1,0 +1,335 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>重排和重绘 | Andylin's Blog</title><meta name="keywords" content="面试,性能优化"><meta name="author" content="林文钦,andylin0119@163.com"><meta name="copyright" content="林文钦"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="重排(reflow)和重绘(repaint) 页面生成的过程：1.HTML 被 HTML 解析器解析成 DOM 树； 2.CSS  被 CSS 解析器解析成 CSSOM 树； 3.结合 DOM 树和 CSSOM 树，生成一棵渲染树(Render Tree)，这一过程称为 Attachment； 4.生成布局(flow)，浏览器在屏幕上“画”出渲染树中的所有节点； 5.将布局绘制(paint)在屏幕">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重排和重绘">
+<meta property="og:url" content="https://andylinwenqin.github.io/2021/06/26/%E9%87%8D%E6%8E%92%E5%92%8C%E9%87%8D%E7%BB%98/index.html">
+<meta property="og:site_name" content="Andylin&#39;s Blog">
+<meta property="og:description" content="重排(reflow)和重绘(repaint) 页面生成的过程：1.HTML 被 HTML 解析器解析成 DOM 树； 2.CSS  被 CSS 解析器解析成 CSSOM 树； 3.结合 DOM 树和 CSSOM 树，生成一棵渲染树(Render Tree)，这一过程称为 Attachment； 4.生成布局(flow)，浏览器在屏幕上“画”出渲染树中的所有节点； 5.将布局绘制(paint)在屏幕">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://andylinwenqin.github.io/img/12.jpg">
+<meta property="article:published_time" content="2021-06-26T06:27:49.000Z">
+<meta property="article:modified_time" content="2021-07-11T06:47:17.409Z">
+<meta property="article:author" content="林文钦">
+<meta property="article:tag" content="面试">
+<meta property="article:tag" content="性能优化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://andylinwenqin.github.io/img/12.jpg"><link rel="shortcut icon" href="/andylin.github.io/img/favicon.png"><link rel="canonical" href="https://andylinwenqin.github.io/2021/06/26/%E9%87%8D%E6%8E%92%E5%92%8C%E9%87%8D%E7%BB%98/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/andylin.github.io/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/andylin.github.io/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '重排和重绘',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-07-11 14:47:17'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/andylin.github.io/atom.xml" title="Andylin's Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/andylin.github.io/img/OIP-C.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/andylin.github.io/archives/"><div class="headline">文章</div><div class="length-num">35</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/andylin.github.io/tags/"><div class="headline">标签</div><div class="length-num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/andylin.github.io/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/andylin.github.io/img/12.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/andylin.github.io/">Andylin's Blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/andylin.github.io/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">重排和重绘</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-06-26T06:27:49.000Z" title="发表于 2021-06-26 14:27:49">2021-06-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-07-11T06:47:17.409Z" title="更新于 2021-07-11 14:47:17">2021-07-11</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="重排和重绘"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="重排-reflow-和重绘-repaint"><a href="#重排-reflow-和重绘-repaint" class="headerlink" title="重排(reflow)和重绘(repaint)"></a>重排(reflow)和重绘(repaint)</h1><hr>
+<h2 id="页面生成的过程："><a href="#页面生成的过程：" class="headerlink" title="页面生成的过程："></a>页面生成的过程：</h2><p>1.HTML 被 HTML 解析器解析成 DOM 树；</p>
+<p>2.CSS  被 CSS 解析器解析成 CSSOM 树；</p>
+<p>3.结合 DOM 树和 CSSOM 树，生成一棵渲染树(Render Tree)，这一过程称为 Attachment；</p>
+<p>4.生成布局(flow)，浏览器在屏幕上“画”出渲染树中的所有节点；</p>
+<p>5.将布局绘制(paint)在屏幕上，显示出整个页面。</p>
+<p>第四步和第五步是最耗时的部分，这两步合起来，就是我们通常所说的渲染。</p>
+<p><img src="https://raw.githubusercontent.com/andylinwenqin/Picgo/main/img/20210626143116.webp"></p>
+<h2 id="渲染："><a href="#渲染：" class="headerlink" title="渲染："></a>渲染：</h2><p>在页面的生命周期中，网页生成的时候，至少会渲染一次。在用户访问的过程中，还会不断触发重排(reflow)和重绘(repaint)，不管页面发生了重绘还是重排，都会影响性能，最可怕的是重排，会使我们付出高额的性能代价，所以我们应尽量避免。</p>
+<h2 id="重排比重绘大："><a href="#重排比重绘大：" class="headerlink" title="重排比重绘大："></a>重排比重绘大：</h2><p>大，在这个语境里的意思是：谁能影响谁？</p>
+<ul>
+<li>重绘：某些元素的外观被改变，例如：元素的填充颜色</li>
+<li>重排：重新生成布局，重新排列元素。</li>
+</ul>
+<p>就如上面的概念一样，单单改变元素的外观，肯定不会引起网页重新生成布局，但当浏览器完成重排之后，将会重新绘制受到此次重排影响的部分。比如改变元素高度，这个元素乃至周边dom都需要重新绘制。</p>
+<p>也就是说：<strong>重绘不一定导致重排，但重排一定会导致重绘</strong>。</p>
+<h2 id="重排-reflow-："><a href="#重排-reflow-：" class="headerlink" title="重排(reflow)："></a>重排(reflow)：</h2><h3 id="概念："><a href="#概念：" class="headerlink" title="概念："></a>概念：</h3><p>当DOM的变化影响了元素的几何信息(元素的的位置和尺寸大小)，浏览器需要重新计算元素的几何属性，将其安放在界面中的正确位置，这个过程叫做重排。</p>
+<p>重排也叫回流，简单的说就是重新生成布局，重新排列元素。</p>
+<h3 id="下面情况会发生重排："><a href="#下面情况会发生重排：" class="headerlink" title="下面情况会发生重排："></a>下面情况会发生重排：</h3><ul>
+<li>页面初始渲染，这是开销最大的一次重排</li>
+<li>添加/删除可见的DOM元素</li>
+<li>改变元素位置</li>
+<li>改变元素尺寸，比如边距、填充、边框、宽度和高度等</li>
+<li>改变元素内容，比如文字数量，图片大小等</li>
+<li>改变元素字体大小</li>
+<li>改变浏览器窗口尺寸，比如resize事件发生时</li>
+<li>激活CSS伪类（例如：<code>:hover</code>）</li>
+<li>设置 style 属性的值，因为通过设置style属性改变结点样式的话，每一次设置都会触发一次reflow</li>
+<li>查询某些属性或调用某些计算方法：offsetWidth、offsetHeight等，除此之外，当我们调用 <code>getComputedStyle</code>方法，或者IE里的 <code>currentStyle</code> 时，也会触发重排，原理是一样的，都为求一个“即时性”和“准确性”。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>常见引起重排属性和方法</th>
+<th>–</th>
+<th>–</th>
+<th>–</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>width</td>
+<td>height</td>
+<td>margin</td>
+<td>padding</td>
+</tr>
+<tr>
+<td>display</td>
+<td>border-width</td>
+<td>border</td>
+<td>position</td>
+</tr>
+<tr>
+<td>overflow</td>
+<td>font-size</td>
+<td>vertical-align</td>
+<td>min-height</td>
+</tr>
+<tr>
+<td>clientWidth</td>
+<td>clientHeight</td>
+<td>clientTop</td>
+<td>clientLeft</td>
+</tr>
+<tr>
+<td>offsetWudth</td>
+<td>offsetHeight</td>
+<td>offsetTop</td>
+<td>offsetLeft</td>
+</tr>
+<tr>
+<td>scrollWidth</td>
+<td>scrollHeight</td>
+<td>scrollTop</td>
+<td>scrollLeft</td>
+</tr>
+<tr>
+<td>scrollIntoView()</td>
+<td>scrollTo()</td>
+<td>getComputedStyle()</td>
+<td></td>
+</tr>
+<tr>
+<td>getBoundingClientRect()</td>
+<td>scrollIntoViewIfNeeded()</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="重排影响的范围："><a href="#重排影响的范围：" class="headerlink" title="重排影响的范围："></a>重排影响的范围：</h3><p>由于浏览器渲染界面是基于流失布局模型的，所以触发重排时会对周围DOM重新排列，影响的范围有两种：</p>
+<ul>
+<li>全局范围：从根节点html开始对整个渲染树进行重新布局。</li>
+<li>局部范围：对渲染树的某部分或某一个渲染对象进行重新布局</li>
+</ul>
+<p><strong>全局范围重排：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">  &lt;div class=&quot;hello&quot;&gt;</span><br><span class="line">    &lt;h4&gt;hello&lt;/h4&gt;</span><br><span class="line">    &lt;p&gt;&lt;strong&gt;Name:&lt;/strong&gt;BDing&lt;/p&gt;</span><br><span class="line">    &lt;h5&gt;male&lt;/h5&gt;</span><br><span class="line">    &lt;ol&gt;</span><br><span class="line">      &lt;li&gt;coding&lt;/li&gt;</span><br><span class="line">      &lt;li&gt;loving&lt;/li&gt;</span><br><span class="line">    &lt;/ol&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>当p节点上发生reflow时，hello和body也会重新渲染，甚至h5和ol都会收到影响。</p>
+<p><strong>局部范围重排：</strong></p>
+<p>用局部布局来解释这种现象：把一个dom的宽高之类的几何信息定死，然后在dom内部触发重排，就只会重新渲染该dom内部的元素，而不会影响到外界。</p>
+<h2 id="重绘-Repaints"><a href="#重绘-Repaints" class="headerlink" title="重绘(Repaints):"></a>重绘(Repaints):</h2><h3 id="概念：-1"><a href="#概念：-1" class="headerlink" title="概念："></a>概念：</h3><p>当一个元素的外观发生改变，但没有改变布局,重新把元素外观绘制出来的过程，叫做重绘。</p>
+<h3 id="常见的引起重绘的属性："><a href="#常见的引起重绘的属性：" class="headerlink" title="常见的引起重绘的属性："></a>常见的引起重绘的属性：</h3><table>
+<thead>
+<tr>
+<th>属性：</th>
+<th>–</th>
+<th>–</th>
+<th>–</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>color</td>
+<td>border-style</td>
+<td>visibility</td>
+<td>background</td>
+</tr>
+<tr>
+<td>text-decoration</td>
+<td>background-image</td>
+<td>background-position</td>
+<td>background-repeat</td>
+</tr>
+<tr>
+<td>outline-color</td>
+<td>outline</td>
+<td>outline-style</td>
+<td>border-radius</td>
+</tr>
+<tr>
+<td>outline-width</td>
+<td>box-shadow</td>
+<td>background-size</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="重排优化建议："><a href="#重排优化建议：" class="headerlink" title="重排优化建议："></a>重排优化建议：</h2><p>重排的代价是高昂的，会破坏用户体验，并且让UI展示非常迟缓。通过减少重排的负面影响来提高用户体验的最简单方式就是尽可能的减少重排次数，重排范围。下面是一些行之有效的建议，大家可以用来参考。</p>
+<h3 id="减少重排范围"><a href="#减少重排范围" class="headerlink" title="减少重排范围"></a>减少重排范围</h3><p>我们应该尽量以局部布局的形式组织html结构，尽可能小的影响重排的范围。</p>
+<ul>
+<li>尽可能在低层级的DOM节点上，而不是像上述全局范围的示例代码一样，如果你要改变p的样式，class就不要加在div上，通过父元素去影响子元素不好。</li>
+<li>不要使用 table 布局，可能很小的一个小改动会造成整个 table 的重新布局。那么在不得已使用table的场合，可以设置table-layout:auto;或者是table-layout:fixed这样可以让table一行一行的渲染，这种做法也是为了限制reflow的影响范围。</li>
+</ul>
+<h3 id="减少重排次数"><a href="#减少重排次数" class="headerlink" title="减少重排次数"></a>减少重排次数</h3><h4 id="1-样式集中改变"><a href="#1-样式集中改变" class="headerlink" title="1.样式集中改变"></a>1.样式集中改变</h4><p>不要频繁的操作样式，对于一个静态页面来说，明智且可维护的做法是更改类名而不是修改样式，对于动态改变的样式来说，相较每次微小修改都直接触及元素，更好的办法是统一在 <code>cssText</code> 变量中编辑。虽然现在大部分现代浏览器都会有 <code>Flush</code> 队列进行渲染队列优化，但是有些老版本的浏览器比如IE6的效率依然低下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// bad</span><br><span class="line">var left = 10;</span><br><span class="line">var top = 10;</span><br><span class="line">el.style.left = left + &quot;px&quot;;</span><br><span class="line">el.style.top = top + &quot;px&quot;;</span><br><span class="line"></span><br><span class="line">// 当top和left的值是动态计算而成时...</span><br><span class="line">// better </span><br><span class="line">el.style.cssText += &quot;; left: &quot; + left + &quot;px; top: &quot; + top + &quot;px;&quot;;</span><br><span class="line"></span><br><span class="line">// better</span><br><span class="line">el.className += &quot; className&quot;;</span><br><span class="line"></span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-分离读写操作"><a href="#2-分离读写操作" class="headerlink" title="2.分离读写操作"></a>2.分离读写操作</h4><p>DOM 的多个读操作（或多个写操作），应该放在一起。不要两个读操作之间，加入一个写操作。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// bad 强制刷新 触发四次重排+重绘</span><br><span class="line">div.style.left = div.offsetLeft + 1 + &#x27;px&#x27;;</span><br><span class="line">div.style.top = div.offsetTop + 1 + &#x27;px&#x27;;</span><br><span class="line">div.style.right = div.offsetRight + 1 + &#x27;px&#x27;;</span><br><span class="line">div.style.bottom = div.offsetBottom + 1 + &#x27;px&#x27;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// good 缓存布局信息 相当于读写分离 触发一次重排+重绘</span><br><span class="line">var curLeft = div.offsetLeft;</span><br><span class="line">var curTop = div.offsetTop;</span><br><span class="line">var curRight = div.offsetRight;</span><br><span class="line">var curBottom = div.offsetBottom;</span><br><span class="line"></span><br><span class="line">div.style.left = curLeft + 1 + &#x27;px&#x27;;</span><br><span class="line">div.style.top = curTop + 1 + &#x27;px&#x27;;</span><br><span class="line">div.style.right = curRight + 1 + &#x27;px&#x27;;</span><br><span class="line">div.style.bottom = curBottom + 1 + &#x27;px&#x27;;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure>
+
+<p>原来的操作会导致四次重排，读写分离之后实际上只触发了一次重排，这都得益于浏览器的渲染队列机制：</p>
+<blockquote>
+<p>当我们修改了元素的几何属性，导致浏览器触发重排或重绘时。它会把该操作放进渲染队列，等到队列中的操作到了一定的数量或者到了一定的时间间隔时，浏览器就会批量执行这些操作。</p>
+</blockquote>
+<h4 id="3-将-DOM-离线"><a href="#3-将-DOM-离线" class="headerlink" title="3.将 DOM 离线"></a>3.将 DOM 离线</h4><p>“离线”意味着不在当前的 DOM 树中做修改，我们可以这样做：</p>
+<ul>
+<li><p>使用 display:none</p>
+<p>一旦我们给元素设置 <code>display:none</code> 时（只有一次重排重绘），元素便不会再存在在渲染树中，相当于将其从页面上“拿掉”，我们之后的操作将不会触发重排和重绘，添加足够多的变更后，通过 <code>display</code>属性显示（另一次重排重绘）。通过这种方式即使大量变更也只触发两次重排。另外，<code>visibility : hidden</code> 的元素只对重绘有影响，不影响重排。</p>
+</li>
+<li><p>通过 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/DocumentFragment">documentFragment</a> 创建一个 <code>dom</code> 碎片,在它上面批量操作 <code>dom</code>，操作完成之后，再添加到文档中，这样只会触发一次重排。</p>
+</li>
+<li><p>复制节点，在副本上工作，然后替换它！</p>
+</li>
+</ul>
+<h4 id="4-使用-absolute-或-fixed-脱离文档流"><a href="#4-使用-absolute-或-fixed-脱离文档流" class="headerlink" title="4.使用 absolute 或 fixed 脱离文档流"></a>4.使用 absolute 或 fixed 脱离文档流</h4><p>使用绝对定位会使的该元素单独成为渲染树中 <code>body</code> 的一个子元素，重排开销比较小，不会对其它节点造成太多影响。当你在这些节点上放置这个元素时，一些其它在这个区域内的节点可能需要重绘，但是不需要重排。</p>
+<h4 id="5-优化动画"><a href="#5-优化动画" class="headerlink" title="5.优化动画"></a>5.优化动画</h4><ul>
+<li><p>可以把动画效果应用到 <code>position</code>属性为 <code>absolute</code> 或 <code>fixed</code> 的元素上，这样对其他元素影响较小。</p>
+<p>动画效果还应牺牲一些平滑，来换取速度，这中间的度自己衡量： 比如实现一个动画，以1个像素为单位移动这样最平滑，但是Layout就会过于频繁，大量消耗CPU资源，如果以3个像素为单位移动则会好很多</p>
+</li>
+<li><p>启用GPU加速 <code>GPU</code> 硬件加速是指应用 <code>GPU</code> 的图形性能对浏览器中的一些图形操作交给 <code>GPU</code> 来完成，因为 <code>GPU</code> 是专门为处理图形而设计，所以它在速度和能耗上更有效率。</p>
+<p><code>GPU</code> 加速通常包括以下几个部分：Canvas2D，布局合成, CSS3转换（transitions），CSS3 3D变换（transforms），WebGL和视频(video)。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">  /*</span><br><span class="line">  * 根据上面的结论</span><br><span class="line">  * 将 2d transform 换成 3d</span><br><span class="line">  * 就可以强制开启 GPU 加速</span><br><span class="line">  * 提高动画性能</span><br><span class="line">  */</span><br><span class="line">  div &#123;</span><br><span class="line">    transform: translate3d(10px, 10px, 0);</span><br><span class="line">  &#125;</span><br><span class="line">复制代码</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="如何在浏览器中查看页面渲染时间"><a href="#如何在浏览器中查看页面渲染时间" class="headerlink" title="如何在浏览器中查看页面渲染时间"></a>如何在浏览器中查看页面渲染时间</h2><p>1.打开开发者工具：点击 Performance 左侧有个小圆点 点击刷新页面会录制整个页面加载出来 时间的分配情况。如下图</p>
+<p><img src="https://raw.githubusercontent.com/andylinwenqin/Picgo/main/img/20210626143902.webp"></p>
+<ul>
+<li>蓝色: 网络通信和HTML解析</li>
+<li>黄色: JavaScript执行</li>
+<li>紫色: 样式计算和布局，即重排</li>
+<li>绿色: 重绘</li>
+</ul>
+<p>哪种色块比较多，就说明性能耗费在那里。色块越长，问题越大。</p>
+<p>2.点击 Event Log：单独勾选 Loading 项会显示 html 和 css 加载时间。如下图：</p>
+<p><img src="https://raw.githubusercontent.com/andylinwenqin/Picgo/main/img/20210711144643.webp"></p>
+<p>3.解析完 DOM+CSSOM 之后会生成一个渲染树 Render Tree，就是 DOM 和 CSSOM 的一一对应关系。</p>
+<p>4.通过渲染树中在屏幕上“画”出的所有节点，称为渲染。</p>
+<h3 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h3><ul>
+<li>渲染的三个阶段 Layout，Paint，Composite Layers。 Layout：重排，又叫回流。 Paint:重绘，重排重绘这些步骤都是在 CPU 中发生的。 Compostite Layers：CPU 把生成的 BitMap（位图）传输到 GPU，渲染到屏幕。</li>
+<li>CSS3 就是在 GPU 发生的：Transform  Opacity。在 GPU 发生的属性比较高效。所以 CSS3 性能比较高。</li>
+</ul>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000017491520">掌握浏览器重绘(repaint)重排(reflow))-前端进阶</a></p>
+<p><a target="_blank" rel="noopener" href="https://csstriggers.com/">csstriggers</a></p>
+<p><a target="_blank" rel="noopener" href="https://efe.baidu.com/blog/hardware-accelerated-css-the-nice-vs-the-naughty/">CSS硬件加速的好与坏</a></p>
+<p>本文来自<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904083212468238">齐小神的重排重绘</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:andylin0119@163.com">林文钦</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://andylinwenqin.github.io/2021/06/26/%E9%87%8D%E6%8E%92%E5%92%8C%E9%87%8D%E7%BB%98/">https://andylinwenqin.github.io/2021/06/26/%E9%87%8D%E6%8E%92%E5%92%8C%E9%87%8D%E7%BB%98/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://andylinwenqin.github.io" target="_blank">Andylin's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/andylin.github.io/tags/%E9%9D%A2%E8%AF%95/">面试</a><a class="post-meta__tags" href="/andylin.github.io/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a></div><div class="post_share"><div class="social-share" data-image="/andylin.github.io/img/12.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/andylin.github.io/2021/06/26/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/"><img class="prev-cover" src="/andylin.github.io/img/11.jpg" onerror="onerror=null;src='/andylin.github.io/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">浏览器工作原理</div></div></a></div><div class="next-post pull-right"><a href="/andylin.github.io/2021/06/26/CSS%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"><img class="next-cover" src="/andylin.github.io/img/9.jpg" onerror="onerror=null;src='/andylin.github.io/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">CSS性能优化</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/andylin.github.io/2021/06/26/CSS性能优化/" title="CSS性能优化"><img class="cover" src="/andylin.github.io/img/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-26</div><div class="title">CSS性能优化</div></div></a></div><div><a href="/andylin.github.io/2021/06/26/浏览器工作原理/" title="浏览器工作原理"><img class="cover" src="/andylin.github.io/img/11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-26</div><div class="title">浏览器工作原理</div></div></a></div><div><a href="/andylin.github.io/2021/06/26/CSS盒模型/" title="CSS盒模型"><img class="cover" src="/andylin.github.io/img/5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-26</div><div class="title">CSS盒模型</div></div></a></div><div><a href="/andylin.github.io/2021/06/26/ES6新增内容/" title="Es6新增内容"><img class="cover" src="/andylin.github.io/img/5.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-26</div><div class="title">Es6新增内容</div></div></a></div><div><a href="/andylin.github.io/2021/06/26/CSS选择器/" title="CSS选择器"><img class="cover" src="/andylin.github.io/img/12.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-26</div><div class="title">CSS选择器</div></div></a></div><div><a href="/andylin.github.io/2021/06/26/JS的基础知识点/" title="JS的基础知识点"><img class="cover" src="/andylin.github.io/img/8.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-26</div><div class="title">JS的基础知识点</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/andylin.github.io/img/OIP-C.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">林文钦</div><div class="author-info__description">个人知识积累</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/andylin.github.io/archives/"><div class="headline">文章</div><div class="length-num">35</div></a></div><div class="card-info-data-item is-center"><a href="/andylin.github.io/tags/"><div class="headline">标签</div><div class="length-num">12</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/andylinwenqin"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">此博客仅用于个人学习，如有内容需要备注原地址，联系博主</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%87%8D%E6%8E%92-reflow-%E5%92%8C%E9%87%8D%E7%BB%98-repaint"><span class="toc-number">1.</span> <span class="toc-text">重排(reflow)和重绘(repaint)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E7%94%9F%E6%88%90%E7%9A%84%E8%BF%87%E7%A8%8B%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">页面生成的过程：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%B2%E6%9F%93%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">渲染：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E6%8E%92%E6%AF%94%E9%87%8D%E7%BB%98%E5%A4%A7%EF%BC%9A"><span class="toc-number">1.3.</span> <span class="toc-text">重排比重绘大：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E6%8E%92-reflow-%EF%BC%9A"><span class="toc-number">1.4.</span> <span class="toc-text">重排(reflow)：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="toc-number">1.4.1.</span> <span class="toc-text">概念：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E9%9D%A2%E6%83%85%E5%86%B5%E4%BC%9A%E5%8F%91%E7%94%9F%E9%87%8D%E6%8E%92%EF%BC%9A"><span class="toc-number">1.4.2.</span> <span class="toc-text">下面情况会发生重排：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E6%8E%92%E5%BD%B1%E5%93%8D%E7%9A%84%E8%8C%83%E5%9B%B4%EF%BC%9A"><span class="toc-number">1.4.3.</span> <span class="toc-text">重排影响的范围：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E7%BB%98-Repaints"><span class="toc-number">1.5.</span> <span class="toc-text">重绘(Repaints):</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5%EF%BC%9A-1"><span class="toc-number">1.5.1.</span> <span class="toc-text">概念：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%BC%95%E8%B5%B7%E9%87%8D%E7%BB%98%E7%9A%84%E5%B1%9E%E6%80%A7%EF%BC%9A"><span class="toc-number">1.5.2.</span> <span class="toc-text">常见的引起重绘的属性：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E6%8E%92%E4%BC%98%E5%8C%96%E5%BB%BA%E8%AE%AE%EF%BC%9A"><span class="toc-number">1.6.</span> <span class="toc-text">重排优化建议：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%8F%E5%B0%91%E9%87%8D%E6%8E%92%E8%8C%83%E5%9B%B4"><span class="toc-number">1.6.1.</span> <span class="toc-text">减少重排范围</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%8F%E5%B0%91%E9%87%8D%E6%8E%92%E6%AC%A1%E6%95%B0"><span class="toc-number">1.6.2.</span> <span class="toc-text">减少重排次数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%A0%B7%E5%BC%8F%E9%9B%86%E4%B8%AD%E6%94%B9%E5%8F%98"><span class="toc-number">1.6.2.1.</span> <span class="toc-text">1.样式集中改变</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%88%86%E7%A6%BB%E8%AF%BB%E5%86%99%E6%93%8D%E4%BD%9C"><span class="toc-number">1.6.2.2.</span> <span class="toc-text">2.分离读写操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E5%B0%86-DOM-%E7%A6%BB%E7%BA%BF"><span class="toc-number">1.6.2.3.</span> <span class="toc-text">3.将 DOM 离线</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E4%BD%BF%E7%94%A8-absolute-%E6%88%96-fixed-%E8%84%B1%E7%A6%BB%E6%96%87%E6%A1%A3%E6%B5%81"><span class="toc-number">1.6.2.4.</span> <span class="toc-text">4.使用 absolute 或 fixed 脱离文档流</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E4%BC%98%E5%8C%96%E5%8A%A8%E7%94%BB"><span class="toc-number">1.6.2.5.</span> <span class="toc-text">5.优化动画</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E6%9F%A5%E7%9C%8B%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93%E6%97%B6%E9%97%B4"><span class="toc-number">1.7.</span> <span class="toc-text">如何在浏览器中查看页面渲染时间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93%EF%BC%9A"><span class="toc-number">1.7.1.</span> <span class="toc-text">小结：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3"><span class="toc-number">1.8.</span> <span class="toc-text">参考文档</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/andylin.github.io/2021/07/25/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3/" title="小程序问题与解决"><img src="/andylin.github.io/img/8.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/404.jpg'" alt="小程序问题与解决"/></a><div class="content"><a class="title" href="/andylin.github.io/2021/07/25/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3/" title="小程序问题与解决">小程序问题与解决</a><time datetime="2021-07-25T08:54:42.000Z" title="发表于 2021-07-25 16:54:42">2021-07-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/andylin.github.io/2021/07/17/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%9F%BA%E7%A1%80API%E7%9A%84%E4%BD%BF%E7%94%A8/" title="小程序基础API的使用"><img src="/andylin.github.io/img/8.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/404.jpg'" alt="小程序基础API的使用"/></a><div class="content"><a class="title" href="/andylin.github.io/2021/07/17/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%9F%BA%E7%A1%80API%E7%9A%84%E4%BD%BF%E7%94%A8/" title="小程序基础API的使用">小程序基础API的使用</a><time datetime="2021-07-17T14:14:41.000Z" title="发表于 2021-07-17 22:14:41">2021-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/andylin.github.io/2021/07/17/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%99%BB%E5%BD%95%E6%8E%A5%E5%8F%A3%E7%9A%84%E6%9B%B4%E6%96%B0/" title="小程序登录接口的更新"><img src="/andylin.github.io/img/4.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/404.jpg'" alt="小程序登录接口的更新"/></a><div class="content"><a class="title" href="/andylin.github.io/2021/07/17/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%99%BB%E5%BD%95%E6%8E%A5%E5%8F%A3%E7%9A%84%E6%9B%B4%E6%96%B0/" title="小程序登录接口的更新">小程序登录接口的更新</a><time datetime="2021-07-17T04:19:31.000Z" title="发表于 2021-07-17 12:19:31">2021-07-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/andylin.github.io/2021/07/11/%E5%8D%95%E5%B7%A5-%E5%8D%8A%E5%8F%8C%E5%B7%A5-%E5%85%A8%E5%8F%8C%E5%B7%A5%E4%B8%89%E8%80%85%E5%8C%BA%E5%88%AB/" title="单工,半双工,全双工三者区别"><img src="/andylin.github.io/img/8.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/404.jpg'" alt="单工,半双工,全双工三者区别"/></a><div class="content"><a class="title" href="/andylin.github.io/2021/07/11/%E5%8D%95%E5%B7%A5-%E5%8D%8A%E5%8F%8C%E5%B7%A5-%E5%85%A8%E5%8F%8C%E5%B7%A5%E4%B8%89%E8%80%85%E5%8C%BA%E5%88%AB/" title="单工,半双工,全双工三者区别">单工,半双工,全双工三者区别</a><time datetime="2021-07-11T07:10:38.000Z" title="发表于 2021-07-11 15:10:38">2021-07-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/andylin.github.io/2021/07/06/STOMP/" title="Stomp"><img src="/andylin.github.io/img/9.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/404.jpg'" alt="Stomp"/></a><div class="content"><a class="title" href="/andylin.github.io/2021/07/06/STOMP/" title="Stomp">Stomp</a><time datetime="2021-07-06T11:12:57.000Z" title="发表于 2021-07-06 19:12:57">2021-07-06</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 林文钦</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/andylin.github.io/js/utils.js"></script><script src="/andylin.github.io/js/main.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
