@@ -1,0 +1,251 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CSS动画 | Andylin's Blog</title><meta name="keywords" content="CSS,面试"><meta name="author" content="林文钦,andylin0119@163.com"><meta name="copyright" content="林文钦"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="CSS动画和实现方法 css3颜色渐变CSS 渐变使您可以显示两种或多种指定颜色之间的平滑过渡。 CSS 定义了两种渐变类型：  线性渐变（向下&#x2F;向上&#x2F;向左&#x2F;向右&#x2F;对角线） 径向渐变（由其中心定义）  语法1background-image: linear-gradient(direction, color-stop1, color-stop2, ...);  实例123#grad &amp;#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS动画">
+<meta property="og:url" content="https://andylinwenqin.github.io/2021/09/04/CSS%E5%8A%A8%E7%94%BB/index.html">
+<meta property="og:site_name" content="Andylin&#39;s Blog">
+<meta property="og:description" content="CSS动画和实现方法 css3颜色渐变CSS 渐变使您可以显示两种或多种指定颜色之间的平滑过渡。 CSS 定义了两种渐变类型：  线性渐变（向下&#x2F;向上&#x2F;向左&#x2F;向右&#x2F;对角线） 径向渐变（由其中心定义）  语法1background-image: linear-gradient(direction, color-stop1, color-stop2, ...);  实例123#grad &amp;#123;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://andylinwenqin.github.io/img/5.jpg">
+<meta property="article:published_time" content="2021-09-04T08:42:38.000Z">
+<meta property="article:modified_time" content="2021-09-04T09:30:02.012Z">
+<meta property="article:author" content="林文钦">
+<meta property="article:tag" content="CSS">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://andylinwenqin.github.io/img/5.jpg"><link rel="shortcut icon" href="/andylin.github.io/img/favicon.png"><link rel="canonical" href="https://andylinwenqin.github.io/2021/09/04/CSS%E5%8A%A8%E7%94%BB/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/andylin.github.io/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/andylin.github.io/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CSS动画',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-09-04 17:30:02'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/andylin.github.io/atom.xml" title="Andylin's Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/andylin.github.io/img/OIP-C.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/andylin.github.io/archives/"><div class="headline">文章</div><div class="length-num">45</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/andylin.github.io/tags/"><div class="headline">标签</div><div class="length-num">14</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/andylin.github.io/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/andylin.github.io/img/5.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/andylin.github.io/">Andylin's Blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/andylin.github.io/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">CSS动画</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-09-04T08:42:38.000Z" title="发表于 2021-09-04 16:42:38">2021-09-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-09-04T09:30:02.012Z" title="更新于 2021-09-04 17:30:02">2021-09-04</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="CSS动画"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="CSS动画和实现方法"><a href="#CSS动画和实现方法" class="headerlink" title="CSS动画和实现方法"></a>CSS动画和实现方法</h1><hr>
+<h2 id="css3颜色渐变"><a href="#css3颜色渐变" class="headerlink" title="css3颜色渐变"></a>css3颜色渐变</h2><p>CSS 渐变使您可以显示两种或多种指定颜色之间的平滑过渡。</p>
+<p>CSS 定义了两种渐变类型：</p>
+<ul>
+<li><em>线性渐变</em>（向下/向上/向左/向右/对角线）</li>
+<li><em>径向渐变</em>（由其中心定义）</li>
+</ul>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">background-image</span>: <span class="built_in">linear-gradient</span>(direction, color-stop1, color-stop2, ...);</span><br></pre></td></tr></table></figure>
+
+<h4 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#grad</span> &#123;</span><br><span class="line">  <span class="attribute">background-image</span>: <span class="built_in">linear-gradient</span>(to bottom right, red, yellow);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h4><p><img src="https://raw.githubusercontent.com/andylinwenqin/Picgo/main/img/20210904164739.png"></p>
+<h3 id="使用角度"><a href="#使用角度" class="headerlink" title="使用角度"></a>使用角度</h3><p>如果希望对渐变角度做更多的控制，您可以定义一个角度，来取代预定义的方向（向下、向上、向右、向左、向右下等等）。值 0deg 等于向上（to top）。值 90deg 等于向右（to right）。值 180deg 等于向下（to bottom）。</p>
+<h4 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#grad</span> &#123;</span><br><span class="line">  <span class="attribute">background-image</span>: <span class="built_in">linear-gradient</span>(-<span class="number">90deg</span>, red, yellow);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用透明度"><a href="#使用透明度" class="headerlink" title="使用透明度"></a>使用透明度</h3><p>CSS 渐变还支持透明度，也可用于创建渐变效果。</p>
+<p>如需添加透明度，我们使用 rgba() 函数来定义色标。 rgba() 函数中的最后一个参数可以是 0 到 1 的值，它定义颜色的透明度：0 表示全透明，1 表示全彩色（无透明）。</p>
+<p>下面的例子展示了从左开始的线性渐变。它开始完全透明，然后过渡为全色红色：</p>
+<h4 id="实例-2"><a href="#实例-2" class="headerlink" title="实例"></a>实例</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#grad &#123;</span><br><span class="line">  background-image: linear-gradient(to right, rgba(255,0,0,0), rgba(255,0,0,1));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="css3使用animation属性实现背景颜色动态渐变的效果"><a href="#css3使用animation属性实现背景颜色动态渐变的效果" class="headerlink" title="css3使用animation属性实现背景颜色动态渐变的效果"></a>css3使用animation属性实现背景颜色动态渐变的效果</h2><p>首先我们来看一下CSS3关键帧动画的基础知识</p>
+<p>让我们先了解逐渐改变元素的动画！在CSS 3 animation属性中，您可以设置关键帧并绘制详细的运动。关于动画的时间和时机、无限的循环，只有CSS就可以指定了！</p>
+<h3 id="什么是关键帧？"><a href="#什么是关键帧？" class="headerlink" title="什么是关键帧？"></a>什么是关键帧？</h3><p>关键帧（传递点）是在动画中定义更改的帧。我们@keyframes定义元素如何随每个关键帧而变化。为了使动画与其关键帧匹配，您需要将@keyframes规则的名称与为元素指定的animation-name属性的名称相匹配。</p>
+<p>@keyframes规则的名称声明为“ @keyframes +任意名称 ”。我将写入0％到100％的关键帧信息。0％表示开始动画，100％表示结束时间。0％from，100％可以用to替换。下面的示例是将背景颜色从红色更改为橙色到粉红色的关键框架。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@keyframes</span> name &#123;</span><br><span class="line"> <span class="number">0%</span> &#123; <span class="attribute">background</span>: red; &#125;</span><br><span class="line"> <span class="number">50%</span> &#123; <span class="attribute">background</span>: orange; &#125;</span><br><span class="line"> <span class="number">100%</span> &#123; <span class="attribute">background</span>: pink; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="animation相关属性"><a href="#animation相关属性" class="headerlink" title="animation相关属性"></a>animation相关属性</h3><p><strong>animation-name（动画名）</strong></p>
+<p>@keyframes指定中定义的名称。如果未指定此项，则不会执行动画。此外，如果指定的动画名称与任何关键帧都不匹配，则不会执行该关键帧。</p>
+<p><strong>animation-duration（动画持续时间）</strong></p>
+<p>通过“秒+ s”指定执行一个动画的时间长度。例如，“5秒”持续5秒。如果为0，则不会执行。即使指定了负值，也会将其视为0。</p>
+<p><strong>animation-timing-function（动画定时功能）</strong></p>
+<p>指定动画的时间以及如何继续。您可以通过调整动画进度速度的比例来表达平滑运动。</p>
+<p><strong>ease（初期値）</strong></p>
+<p>ease-in</p>
+<p>ease-out</p>
+<p>ease-in-out</p>
+<p>linear</p>
+<p><strong>animation-delay（动画延迟）</strong></p>
+<p>读取元素时，从“元素编号+ s”指定“动画开始”的时间。例如，“5秒”持续5秒。初始值0将立即执行。</p>
+<p><strong>animation-iteration-count（动画迭代计数）</strong></p>
+<p>指定使用数字重复动画的次数。infinite要指定无限循环，请指定。</p>
+<p><strong>animation-direction（动画方向）</strong></p>
+<p>指定重复动画的方向。</p>
+<p><strong>normal …正常方向播放（初始值）</strong></p>
+<p>alternate …在正常和偶数时间以相反方向重新生成奇数次（返回并返回…）</p>
+<p>reverse…向后播放</p>
+<p>alternate-reverse…反向播放</p>
+<p><strong>animation-play-state（动画播放状态）</strong></p>
+<p>指定动画暂停（paused）和播放（running）。但是，似乎没有太多使用。</p>
+<p>animation-fill-mode（动画填充模式）</p>
+<p>指定播放动画之前和之后的状态。</p>
+<p>none（默认值）</p>
+<p>forwards..播放后保持最后一个关键帧的状态</p>
+<p>backwards…在播放前应用第一个关键帧的状态</p>
+<p>both … forwards ……向前和向后都应用</p>
+<h3 id="属性总结"><a href="#属性总结" class="headerlink" title="属性总结"></a>属性总结</h3><p>animation属性允许您分别指定每个属性的值，用空格分隔。项目可以省略，但动画名称必须在执行前写入。建议按以下顺序列出。</p>
+<p>animation-name（动画名）</p>
+<p>animation-duration（动画持续时间）</p>
+<p>animation-timing-function（动画定时功能）</p>
+<p>animation-delay（动画延迟）</p>
+<p>animation-iteration-count（动画迭代计数）</p>
+<p>animation-direction（动画方向）</p>
+<p>animation-fill-mode（动画填充模式）</p>
+<p>animation-play-state（动画播放状态）</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">animation</span>: test <span class="number">5s</span> ease <span class="number">1s</span> infinite forwards;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>下面我们来看看背景颜色改变的具体内容</strong></p>
+<p>在了解了基础的知识之后，我们来详细看看具体的实现方法。首先，将关键帧的名称设置为“bg - color”，并将背景颜色设置为从0到100％的过渡。如果将相同的颜色设置为0％和100％，则在循环动画时它会平滑移动。我们还将描述您为基于Webkit的浏览器启用的版本。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@-webkit-keyframes</span> bg-color &#123;</span><br><span class="line">  <span class="number">0%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#e74c3c</span>; &#125;</span><br><span class="line">  <span class="number">20%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#f1c40f</span>; &#125;</span><br><span class="line">  <span class="number">40%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#1abc9c</span>; &#125;</span><br><span class="line">  <span class="number">60%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#3498db</span>; &#125;</span><br><span class="line">  <span class="number">80%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#9b59b6</span>; &#125;</span><br><span class="line">  <span class="number">100%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#e74c3c</span>; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@keyframes</span> bg-color &#123;</span><br><span class="line">  <span class="number">0%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#e74c3c</span>; &#125;</span><br><span class="line">  <span class="number">20%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#f1c40f</span>; &#125;</span><br><span class="line">  <span class="number">40%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#1abc9c</span>; &#125;</span><br><span class="line">  <span class="number">60%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#3498db</span>; &#125;</span><br><span class="line">  <span class="number">80%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#9b59b6</span>; &#125;</span><br><span class="line">  <span class="number">100%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#e74c3c</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于此时指定整个网页的背景颜色，body以animation指定属性。值为“关键帧名称”，bg-color“更改”在10秒内添加，“，10s”指定无限循环infinite。不要忘记webkit的版本。background-color让我们指定基本背景颜色作为背景色，为动画不起作用的情况做准备。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#e74c3c</span>;</span><br><span class="line">  <span class="attribute">animation</span>: bg-color <span class="number">10s</span> infinite;</span><br><span class="line">  -webkit-<span class="attribute">animation</span>: bg-color <span class="number">10s</span> infinite;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">&quot;text/css&quot;</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css">        	<span class="selector-tag">body</span> &#123;</span></span><br><span class="line"><span class="css">              <span class="attribute">background-color</span>: <span class="number">#e74c3c</span>;</span></span><br><span class="line"><span class="css">              <span class="attribute">animation</span>: bg-color <span class="number">10s</span> infinite;</span></span><br><span class="line"><span class="css">              -webkit-<span class="attribute">animation</span>: bg-color <span class="number">10s</span> infinite;</span></span><br><span class="line"><span class="css">            &#125;</span></span><br><span class="line"><span class="css">            <span class="keyword">@-webkit-keyframes</span> bg-color &#123;</span></span><br><span class="line"><span class="css">                <span class="number">0%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#e74c3c</span>; &#125;</span></span><br><span class="line"><span class="css">                <span class="number">20%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#f1c40f</span>; &#125;</span></span><br><span class="line"><span class="css">                <span class="number">40%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#1abc9c</span>; &#125;</span></span><br><span class="line"><span class="css">                <span class="number">60%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#3498db</span>; &#125;</span></span><br><span class="line"><span class="css">                <span class="number">80%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#9b59b6</span>; &#125;</span></span><br><span class="line"><span class="css">                <span class="number">100%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#e74c3c</span>; &#125;</span></span><br><span class="line"><span class="css">            &#125;</span></span><br><span class="line"><span class="css">            <span class="keyword">@keyframes</span> bg-color &#123;</span></span><br><span class="line"><span class="css">                <span class="number">0%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#e74c3c</span>; &#125;</span></span><br><span class="line"><span class="css">                <span class="number">20%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#f1c40f</span>; &#125;</span></span><br><span class="line"><span class="css">                <span class="number">40%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#1abc9c</span>; &#125;</span></span><br><span class="line"><span class="css">                <span class="number">60%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#3498db</span>; &#125;</span></span><br><span class="line"><span class="css">                <span class="number">80%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#9b59b6</span>; &#125;</span></span><br><span class="line"><span class="css">                <span class="number">100%</span> &#123; <span class="attribute">background-color</span>: <span class="number">#e74c3c</span>; &#125;</span></span><br><span class="line"><span class="css">            &#125; </span></span><br><span class="line"><span class="css">        </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>andyLin博客<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="最终效果"><a href="#最终效果" class="headerlink" title="最终效果"></a>最终效果</h3><p><img src="https://raw.githubusercontent.com/andylinwenqin/Picgo/main/img/20210904170016.gif"></p>
+<h2 id="画一个三角形"><a href="#画一个三角形" class="headerlink" title="画一个三角形"></a>画一个三角形</h2><h2 id="实现一个简单的三角形"><a href="#实现一个简单的三角形" class="headerlink" title="实现一个简单的三角形"></a>实现一个简单的三角形</h2><p>使用CSS盒模型中的border（边框）即可实现如下所示的三角形：</p>
+<p><img src="https://raw.githubusercontent.com/andylinwenqin/Picgo/main/img/20210904170941.webp"></p>
+<p>CSS实现简单三角形</p>
+<h3 id="实现原理："><a href="#实现原理：" class="headerlink" title="实现原理："></a>实现原理：</h3><p>首先来看在为元素添加border时，border的样子；假设有如下代码：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">div &#123;</span><br><span class="line">    width: 50px;</span><br><span class="line">    height: 50px;</span><br><span class="line">    border: 2px solid orange;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果图：</p>
+<p><img src="https://raw.githubusercontent.com/andylinwenqin/Picgo/main/img/20210904171004.webp"></p>
+<p>border的一般使用</p>
+<p>这是我们平常使用border最普遍的情况——往往只给border一个较小的宽度（通常为1-2px）；然而这样的日常用法就会容易让大家对border的形成方式产生<strong>误解</strong>，即认为元素的border是由四个矩形边框拼接而成。</p>
+<p>然而事实并不是这样。实际上，元素的border是由<strong>三角形</strong>组合而成，为了说明这个问题，我们可以增大border的宽度，并为各border边设置不同的颜色：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">50px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">50px</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">40px</span> solid;</span><br><span class="line">    <span class="attribute">border-color</span>: orange blue red green;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果图：</p>
+<p><img src="https://raw.githubusercontent.com/andylinwenqin/Picgo/main/img/20210904171017.webp"></p>
+<p>border的形成方式</p>
+<p>既然如此，那么更进一步，把元素的内容尺寸设置为0会发生什么情况呢？</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">40px</span> solid;</span><br><span class="line">    <span class="attribute">border-color</span>: orange blue red green;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果图：</p>
+<p><img src="https://raw.githubusercontent.com/andylinwenqin/Picgo/main/img/20210904171026.webp"></p>
+<p>元素内容尺寸为0</p>
+<p>我们将惊奇地发现，此时元素由上下左右4个三角形“拼接”而成；那么，为了实现最终的效果，即保留最下方的三角形，还应该怎么做？很简单，我们只需要把其它border边的颜色设置为<strong>白色</strong>或<strong>透明色</strong>：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">40px</span> solid;</span><br><span class="line">    <span class="attribute">border-color</span>: transparent transparent red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/andylinwenqin/Picgo/main/img/20210904171041.webp"></p>
+<p>Duang~ 最终的简单三角形就绘制出来了。同理，如果想要得到其它边上的三角形，只需要将剩余的border边颜色设置为白色或透明色即可。</p>
+<p>不过，被“隐藏”的上border仍然占据着空间，要想使得绘制出的三角形尺寸最小化，还需要将上border的宽度设置为0（其它情况同理）：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">border-width</span>: <span class="number">0</span> <span class="number">40px</span> <span class="number">40px</span>;</span><br><span class="line">    <span class="attribute">border-style</span>: solid;</span><br><span class="line">    <span class="attribute">border-color</span>: transparent transparent red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="出自-CSS绘制三角形—border法"><a href="#出自-CSS绘制三角形—border法" class="headerlink" title="出自 CSS绘制三角形—border法"></a>出自 <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/9a463d50e441">CSS绘制三角形—border法</a></h3></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:andylin0119@163.com">林文钦</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://andylinwenqin.github.io/2021/09/04/CSS%E5%8A%A8%E7%94%BB/">https://andylinwenqin.github.io/2021/09/04/CSS%E5%8A%A8%E7%94%BB/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://andylinwenqin.github.io" target="_blank">Andylin's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/andylin.github.io/tags/CSS/">CSS</a><a class="post-meta__tags" href="/andylin.github.io/tags/%E9%9D%A2%E8%AF%95/">面试</a></div><div class="post_share"><div class="social-share" data-image="/andylin.github.io/img/5.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/andylin.github.io/2021/09/04/v-bind/"><img class="prev-cover" src="/andylin.github.io/img/8.jpg" onerror="onerror=null;src='/andylin.github.io/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">v-bind</div></div></a></div><div class="next-post pull-right"><a href="/andylin.github.io/2021/09/04/watch%E5%92%8Ccomputed/"><img class="next-cover" src="/andylin.github.io/img/6.jpg" onerror="onerror=null;src='/andylin.github.io/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">watch和computed</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/andylin.github.io/2021/06/26/CSS性能优化/" title="CSS性能优化"><img class="cover" src="/andylin.github.io/img/10.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-26</div><div class="title">CSS性能优化</div></div></a></div><div><a href="/andylin.github.io/2021/06/26/CSS盒模型/" title="CSS盒模型"><img class="cover" src="/andylin.github.io/img/7.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-26</div><div class="title">CSS盒模型</div></div></a></div><div><a href="/andylin.github.io/2021/06/26/CSS选择器/" title="CSS选择器"><img class="cover" src="/andylin.github.io/img/7.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-26</div><div class="title">CSS选择器</div></div></a></div><div><a href="/andylin.github.io/2021/06/26/flex/" title="flex"><img class="cover" src="/andylin.github.io/img/8.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-26</div><div class="title">flex</div></div></a></div><div><a href="/andylin.github.io/2021/06/26/布局/" title="布局"><img class="cover" src="/andylin.github.io/img/10.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-26</div><div class="title">布局</div></div></a></div><div><a href="/andylin.github.io/2021/06/26/居中/" title="居中"><img class="cover" src="/andylin.github.io/img/3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-26</div><div class="title">居中</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/andylin.github.io/img/OIP-C.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">林文钦</div><div class="author-info__description">个人知识积累</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/andylin.github.io/archives/"><div class="headline">文章</div><div class="length-num">45</div></a></div><div class="card-info-data-item is-center"><a href="/andylin.github.io/tags/"><div class="headline">标签</div><div class="length-num">14</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/andylinwenqin"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">此博客仅用于个人学习，如有内容需要备注原地址，联系博主</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CSS%E5%8A%A8%E7%94%BB%E5%92%8C%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">CSS动画和实现方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#css3%E9%A2%9C%E8%89%B2%E6%B8%90%E5%8F%98"><span class="toc-number">1.1.</span> <span class="toc-text">css3颜色渐变</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%AD%E6%B3%95"><span class="toc-number">1.1.1.</span> <span class="toc-text">语法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">实例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%88%E6%9E%9C"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">效果</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E8%A7%92%E5%BA%A6"><span class="toc-number">1.1.2.</span> <span class="toc-text">使用角度</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B-1"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">实例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E9%80%8F%E6%98%8E%E5%BA%A6"><span class="toc-number">1.1.3.</span> <span class="toc-text">使用透明度</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B-2"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">实例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#css3%E4%BD%BF%E7%94%A8animation%E5%B1%9E%E6%80%A7%E5%AE%9E%E7%8E%B0%E8%83%8C%E6%99%AF%E9%A2%9C%E8%89%B2%E5%8A%A8%E6%80%81%E6%B8%90%E5%8F%98%E7%9A%84%E6%95%88%E6%9E%9C"><span class="toc-number">1.2.</span> <span class="toc-text">css3使用animation属性实现背景颜色动态渐变的效果</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%85%B3%E9%94%AE%E5%B8%A7%EF%BC%9F"><span class="toc-number">1.2.1.</span> <span class="toc-text">什么是关键帧？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#animation%E7%9B%B8%E5%85%B3%E5%B1%9E%E6%80%A7"><span class="toc-number">1.2.2.</span> <span class="toc-text">animation相关属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7%E6%80%BB%E7%BB%93"><span class="toc-number">1.2.3.</span> <span class="toc-text">属性总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="toc-number">1.2.4.</span> <span class="toc-text">完整代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E6%95%88%E6%9E%9C"><span class="toc-number">1.2.5.</span> <span class="toc-text">最终效果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%BB%E4%B8%80%E4%B8%AA%E4%B8%89%E8%A7%92%E5%BD%A2"><span class="toc-number">1.3.</span> <span class="toc-text">画一个三角形</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%89%E8%A7%92%E5%BD%A2"><span class="toc-number">1.4.</span> <span class="toc-text">实现一个简单的三角形</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%9A"><span class="toc-number">1.4.1.</span> <span class="toc-text">实现原理：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BA%E8%87%AA-CSS%E7%BB%98%E5%88%B6%E4%B8%89%E8%A7%92%E5%BD%A2%E2%80%94border%E6%B3%95"><span class="toc-number">1.4.2.</span> <span class="toc-text">出自 CSS绘制三角形—border法</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/andylin.github.io/2021/09/04/v-bind/" title="v-bind"><img src="/andylin.github.io/img/8.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/404.jpg'" alt="v-bind"/></a><div class="content"><a class="title" href="/andylin.github.io/2021/09/04/v-bind/" title="v-bind">v-bind</a><time datetime="2021-09-04T12:04:21.000Z" title="发表于 2021-09-04 20:04:21">2021-09-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/andylin.github.io/2021/09/04/CSS%E5%8A%A8%E7%94%BB/" title="CSS动画"><img src="/andylin.github.io/img/5.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/404.jpg'" alt="CSS动画"/></a><div class="content"><a class="title" href="/andylin.github.io/2021/09/04/CSS%E5%8A%A8%E7%94%BB/" title="CSS动画">CSS动画</a><time datetime="2021-09-04T08:42:38.000Z" title="发表于 2021-09-04 16:42:38">2021-09-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/andylin.github.io/2021/09/04/watch%E5%92%8Ccomputed/" title="watch和computed"><img src="/andylin.github.io/img/6.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/404.jpg'" alt="watch和computed"/></a><div class="content"><a class="title" href="/andylin.github.io/2021/09/04/watch%E5%92%8Ccomputed/" title="watch和computed">watch和computed</a><time datetime="2021-09-04T07:31:54.000Z" title="发表于 2021-09-04 15:31:54">2021-09-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/andylin.github.io/2021/09/04/%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8/" title="属性选择器"><img src="/andylin.github.io/img/12.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/404.jpg'" alt="属性选择器"/></a><div class="content"><a class="title" href="/andylin.github.io/2021/09/04/%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8/" title="属性选择器">属性选择器</a><time datetime="2021-09-04T06:36:46.000Z" title="发表于 2021-09-04 14:36:46">2021-09-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/andylin.github.io/2021/08/23/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85linux-centos7%E7%B3%BB%E7%BB%9F-%E5%8F%8A-mysql8%EF%BC%88%E8%80%81%E7%89%88%E6%9C%AC%EF%BC%89%E9%85%8D%E7%BD%AE%E5%87%BA%E7%8E%B0%E7%9A%84%E9%94%99%E8%AF%AF/" title="虚拟机安装linux centos7系统 及 mysql8（老版本）配置出现的错误"><img src="/andylin.github.io/img/6.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/404.jpg'" alt="虚拟机安装linux centos7系统 及 mysql8（老版本）配置出现的错误"/></a><div class="content"><a class="title" href="/andylin.github.io/2021/08/23/%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85linux-centos7%E7%B3%BB%E7%BB%9F-%E5%8F%8A-mysql8%EF%BC%88%E8%80%81%E7%89%88%E6%9C%AC%EF%BC%89%E9%85%8D%E7%BD%AE%E5%87%BA%E7%8E%B0%E7%9A%84%E9%94%99%E8%AF%AF/" title="虚拟机安装linux centos7系统 及 mysql8（老版本）配置出现的错误">虚拟机安装linux centos7系统 及 mysql8（老版本）配置出现的错误</a><time datetime="2021-08-23T07:11:19.000Z" title="发表于 2021-08-23 15:11:19">2021-08-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 林文钦</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/andylin.github.io/js/utils.js"></script><script src="/andylin.github.io/js/main.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
