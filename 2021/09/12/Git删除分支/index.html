@@ -1,0 +1,173 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Git删除分支 | Andylin's Blog</title><meta name="keywords" content="git"><meta name="author" content="林文钦,andylin0119@163.com"><meta name="copyright" content="林文钦"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Git 删除分支——如何删除本地或远程分支 为什么要删除 Git 中的分支？因此，您已经创建了一个分支来保存要在项目中进行的更改的代码。 然后，您将该更改或新功能合并到项目的原始版本中。 这意味着您不再需要保留和使用该分支，因此删除它是一种常见的最佳做法，以免它弄乱您的代码。 如何在 Git 中删除本地分支本地分支是您本地机器上的分支，不会影响任何远程分支。 在 Git 中删除本地分支的命令是：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git删除分支">
+<meta property="og:url" content="https://andylinwenqin.github.io/2021/09/12/Git%E5%88%A0%E9%99%A4%E5%88%86%E6%94%AF/index.html">
+<meta property="og:site_name" content="Andylin&#39;s Blog">
+<meta property="og:description" content="Git 删除分支——如何删除本地或远程分支 为什么要删除 Git 中的分支？因此，您已经创建了一个分支来保存要在项目中进行的更改的代码。 然后，您将该更改或新功能合并到项目的原始版本中。 这意味着您不再需要保留和使用该分支，因此删除它是一种常见的最佳做法，以免它弄乱您的代码。 如何在 Git 中删除本地分支本地分支是您本地机器上的分支，不会影响任何远程分支。 在 Git 中删除本地分支的命令是：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://andylinwenqin.github.io/img/9.jpg">
+<meta property="article:published_time" content="2021-09-12T06:05:58.000Z">
+<meta property="article:modified_time" content="2021-09-12T06:10:18.848Z">
+<meta property="article:author" content="林文钦">
+<meta property="article:tag" content="git">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://andylinwenqin.github.io/img/9.jpg"><link rel="shortcut icon" href="/andylin.github.io/img/favicon.png"><link rel="canonical" href="https://andylinwenqin.github.io/2021/09/12/Git%E5%88%A0%E9%99%A4%E5%88%86%E6%94%AF/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/andylin.github.io/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/andylin.github.io/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Git删除分支',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-09-12 14:10:18'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/andylin.github.io/atom.xml" title="Andylin's Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/andylin.github.io/img/OIP-C.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/andylin.github.io/archives/"><div class="headline">文章</div><div class="length-num">55</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/andylin.github.io/tags/"><div class="headline">标签</div><div class="length-num">19</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/andylin.github.io/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/andylin.github.io/img/9.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/andylin.github.io/">Andylin's Blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/andylin.github.io/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/andylin.github.io/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Git删除分支</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-09-12T06:05:58.000Z" title="发表于 2021-09-12 14:05:58">2021-09-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-09-12T06:10:18.848Z" title="更新于 2021-09-12 14:10:18">2021-09-12</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Git删除分支"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Git-删除分支——如何删除本地或远程分支"><a href="#Git-删除分支——如何删除本地或远程分支" class="headerlink" title="Git 删除分支——如何删除本地或远程分支"></a>Git 删除分支——如何删除本地或远程分支</h1><hr>
+<h2 id="为什么要删除-Git-中的分支？"><a href="#为什么要删除-Git-中的分支？" class="headerlink" title="为什么要删除 Git 中的分支？"></a>为什么要删除 Git 中的分支？</h2><p>因此，您已经创建了一个分支来保存要在项目中进行的更改的代码。</p>
+<p>然后，您将该更改或新功能合并到项目的原始版本中。</p>
+<p>这意味着您不再需要保留和使用该分支，因此删除它是一种常见的最佳做法，以免它弄乱您的代码。</p>
+<h2 id="如何在-Git-中删除本地分支"><a href="#如何在-Git-中删除本地分支" class="headerlink" title="如何在 Git 中删除本地分支"></a>如何在 Git 中删除本地分支</h2><p>本地分支是您本地机器上的分支，不会影响任何远程分支。</p>
+<p>在 Git 中删除本地分支的命令是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -d  local_branch_name</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>git branch 是在本地删除分支的命令。</li>
+<li>-d是一个标志，是命令的一个选项，它是–delete. 顾名思义，它表示您要删除某些内容。-local_branch_name是要删除的分支的名称。</li>
+<li>个别时候-d 需要大写 -D</li>
+</ul>
+<h2 id="如何在-Git-中删除远程分支"><a href="#如何在-Git-中删除远程分支" class="headerlink" title="如何在 Git 中删除远程分支"></a>如何在 Git 中删除远程分支</h2><p>远程分支与本地分支是分开的。</p>
+<p>它们是托管在远程服务器上的存储库，可以在那里访问。这与本地分支相比，本地分支是本地系统上的存储库。</p>
+<p>删除远程分支的命令是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push remote_name -d remote_branch_name</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>git branch您可以使用该命令删除远程分支，而不是使用用于本地分支的git push命令。</li>
+<li>然后您指定遥控器的名称，在大多数情况下是origin.</li>
+<li>-d是删除标志，是–delete.</li>
+<li>remote_branch_name 是要删除的远程分支。</li>
+</ul>
+<p>现在，让我们看一个如何删除远程分支的示例。</p>
+<p>要查看任何远程分支，请使用以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -a</span><br></pre></td></tr></table></figure>
+
+<p>该-a标志（一个别名–all）显示所有分支机构-本地和远程。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:andylin0119@163.com">林文钦</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://andylinwenqin.github.io/2021/09/12/Git%E5%88%A0%E9%99%A4%E5%88%86%E6%94%AF/">https://andylinwenqin.github.io/2021/09/12/Git%E5%88%A0%E9%99%A4%E5%88%86%E6%94%AF/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://andylinwenqin.github.io" target="_blank">Andylin's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/andylin.github.io/tags/git/">git</a></div><div class="post_share"><div class="social-share" data-image="/andylin.github.io/img/9.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/andylin.github.io/2021/09/12/Git%E5%A4%8D%E5%88%B6%E5%B7%B2%E6%9C%89%E7%9A%84%E5%88%86%E6%94%AF%E5%88%B0%E6%96%B0%E5%88%86%E6%94%AF/"><img class="prev-cover" src="/andylin.github.io/img/12.jpg" onerror="onerror=null;src='/andylin.github.io/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Git复制已有的分支到新分支</div></div></a></div><div class="next-post pull-right"><a href="/andylin.github.io/2021/09/07/%E6%A8%A1%E5%9D%97%E5%8C%96/"><img class="next-cover" src="/andylin.github.io/img/5.jpg" onerror="onerror=null;src='/andylin.github.io/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">模块化</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/andylin.github.io/2021/09/12/Git复制已有的分支到新分支/" title="Git复制已有的分支到新分支"><img class="cover" src="/andylin.github.io/img/12.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-09-12</div><div class="title">Git复制已有的分支到新分支</div></div></a></div><div><a href="/andylin.github.io/2021/09/12/Git拉去远端所有分支/" title="Git拉去远端所有分支"><img class="cover" src="/andylin.github.io/img/11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-09-12</div><div class="title">Git拉去远端所有分支</div></div></a></div><div><a href="/andylin.github.io/2021/06/26/git工具/" title="git工具"><img class="cover" src="/andylin.github.io/img/10.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-26</div><div class="title">git工具</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/andylin.github.io/img/OIP-C.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">林文钦</div><div class="author-info__description">个人知识积累</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/andylin.github.io/archives/"><div class="headline">文章</div><div class="length-num">55</div></a></div><div class="card-info-data-item is-center"><a href="/andylin.github.io/tags/"><div class="headline">标签</div><div class="length-num">19</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/andylinwenqin"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">此博客仅用于个人学习，如有内容需要备注原地址，联系博主</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Git-%E5%88%A0%E9%99%A4%E5%88%86%E6%94%AF%E2%80%94%E2%80%94%E5%A6%82%E4%BD%95%E5%88%A0%E9%99%A4%E6%9C%AC%E5%9C%B0%E6%88%96%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF"><span class="toc-number">1.</span> <span class="toc-text">Git 删除分支——如何删除本地或远程分支</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%88%A0%E9%99%A4-Git-%E4%B8%AD%E7%9A%84%E5%88%86%E6%94%AF%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">为什么要删除 Git 中的分支？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8-Git-%E4%B8%AD%E5%88%A0%E9%99%A4%E6%9C%AC%E5%9C%B0%E5%88%86%E6%94%AF"><span class="toc-number">1.2.</span> <span class="toc-text">如何在 Git 中删除本地分支</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8-Git-%E4%B8%AD%E5%88%A0%E9%99%A4%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF"><span class="toc-number">1.3.</span> <span class="toc-text">如何在 Git 中删除远程分支</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/andylin.github.io/2021/09/12/Git%E6%8B%89%E5%8E%BB%E8%BF%9C%E7%AB%AF%E6%89%80%E6%9C%89%E5%88%86%E6%94%AF/" title="Git拉去远端所有分支"><img src="/andylin.github.io/img/11.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/404.jpg'" alt="Git拉去远端所有分支"/></a><div class="content"><a class="title" href="/andylin.github.io/2021/09/12/Git%E6%8B%89%E5%8E%BB%E8%BF%9C%E7%AB%AF%E6%89%80%E6%9C%89%E5%88%86%E6%94%AF/" title="Git拉去远端所有分支">Git拉去远端所有分支</a><time datetime="2021-09-12T06:15:20.000Z" title="发表于 2021-09-12 14:15:20">2021-09-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/andylin.github.io/2021/09/12/Git%E5%A4%8D%E5%88%B6%E5%B7%B2%E6%9C%89%E7%9A%84%E5%88%86%E6%94%AF%E5%88%B0%E6%96%B0%E5%88%86%E6%94%AF/" title="Git复制已有的分支到新分支"><img src="/andylin.github.io/img/12.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/404.jpg'" alt="Git复制已有的分支到新分支"/></a><div class="content"><a class="title" href="/andylin.github.io/2021/09/12/Git%E5%A4%8D%E5%88%B6%E5%B7%B2%E6%9C%89%E7%9A%84%E5%88%86%E6%94%AF%E5%88%B0%E6%96%B0%E5%88%86%E6%94%AF/" title="Git复制已有的分支到新分支">Git复制已有的分支到新分支</a><time datetime="2021-09-12T06:10:50.000Z" title="发表于 2021-09-12 14:10:50">2021-09-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/andylin.github.io/2021/09/12/Git%E5%88%A0%E9%99%A4%E5%88%86%E6%94%AF/" title="Git删除分支"><img src="/andylin.github.io/img/9.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/404.jpg'" alt="Git删除分支"/></a><div class="content"><a class="title" href="/andylin.github.io/2021/09/12/Git%E5%88%A0%E9%99%A4%E5%88%86%E6%94%AF/" title="Git删除分支">Git删除分支</a><time datetime="2021-09-12T06:05:58.000Z" title="发表于 2021-09-12 14:05:58">2021-09-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/andylin.github.io/2021/09/07/%E6%A8%A1%E5%9D%97%E5%8C%96/" title="模块化"><img src="/andylin.github.io/img/5.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/404.jpg'" alt="模块化"/></a><div class="content"><a class="title" href="/andylin.github.io/2021/09/07/%E6%A8%A1%E5%9D%97%E5%8C%96/" title="模块化">模块化</a><time datetime="2021-09-07T13:15:29.000Z" title="发表于 2021-09-07 21:15:29">2021-09-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/andylin.github.io/2021/09/07/webpack/" title="webpack"><img src="/andylin.github.io/img/6.jpg" onerror="this.onerror=null;this.src='/andylin.github.io/img/404.jpg'" alt="webpack"/></a><div class="content"><a class="title" href="/andylin.github.io/2021/09/07/webpack/" title="webpack">webpack</a><time datetime="2021-09-07T13:15:02.000Z" title="发表于 2021-09-07 21:15:02">2021-09-07</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 林文钦</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a target="_blank" rel="noopener" href="https://butterfly.js.org/">blog</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/andylin.github.io/js/utils.js"></script><script src="/andylin.github.io/js/main.js"></script><div class="js-pjax"></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
